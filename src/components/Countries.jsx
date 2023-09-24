@@ -29,6 +29,7 @@ function Countries() {
     // Pick needed country details
     setCountryDetails({
       name: chosenCountry.name.common,
+      flag: chosenCountry.flags.png,
       capital: chosenCountry.capital && chosenCountry.capital[0],
       currency:
         chosenCountry.currencies &&
@@ -67,6 +68,7 @@ function Countries() {
       {countryDetails && (
         <div>
           <h1>{countryDetails.name}</h1>
+          <img src={countryDetails.flag} alt="flag" />
           <p>Capital: {countryDetails.capital}</p>
           <p>Currency: {countryDetails.currency}</p>
           <p>Region: {countryDetails.region}</p>
