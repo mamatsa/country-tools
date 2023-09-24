@@ -43,13 +43,14 @@ function Countries() {
   };
 
   return (
-    <>
-      <form action="">
+    <div className="w-full p-6 flex flex-col items-center border max-w-screen-xl">
+      <form className="mb-6 w-full">
         <select
           name="countries"
           id="countries"
           onChange={handleChange}
           defaultValue=""
+          className="w-full p-3 bg-transparent border rounded-[4px] focus:border-blue-500"
         >
           <option value="" disabled hidden>
             Choose the country
@@ -66,18 +67,26 @@ function Countries() {
       </form>
 
       {countryDetails && (
-        <div>
-          <h1>{countryDetails.name}</h1>
-          <img src={countryDetails.flag} alt="flag" />
-          <p>Capital: {countryDetails.capital}</p>
-          <p>Currency: {countryDetails.currency}</p>
-          <p>Region: {countryDetails.region}</p>
-          <p>Continent: {countryDetails.continent}</p>
-          <p>Population: {countryDetails.population}</p>
-          <p>Borders: {countryDetails.borders}</p>
+        <div className="w-full border p-4 shadow-md rounded-[4px]">
+          <div className="flex items-center gap-3 mb-6">
+            <h1 className="text-4xl ">{countryDetails.name}</h1>
+            <img src={countryDetails.flag} alt="flag" className="h-8" />
+          </div>
+          <div className="flex">
+            <div className="flex flex-col w-1/2 gap-2">
+              <p>Capital: {countryDetails.capital}</p>
+              <p>Currency: {countryDetails.currency}</p>
+              <p>Region: {countryDetails.region}</p>
+            </div>
+            <div className="flex flex-col w-1/2 gap-2">
+              <p>Continent: {countryDetails.continent}</p>
+              <p>Population: {countryDetails.population}</p>
+              <p>Borders: {countryDetails.borders}</p>
+            </div>
+          </div>
         </div>
       )}
-    </>
+    </div>
   );
 }
 
