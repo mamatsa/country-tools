@@ -1,9 +1,42 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 
-function Countries() {
+function Countries({ userCountry }) {
   const [countries, setCountries] = useState();
   const [countryDetails, setCountryDetails] = useState();
 
+  const selectRef = useRef(null);
+
+  // Handle country change
+  const handleChange = useCallback(
+    (chosenCountry) => {
+      const borderCodes = chosenCountry.borders;
+      // Replace border country codes with actual names
+      if (borderCodes) {
+        for (let i = 0; i < countries.length; i++) {
+          const country = countries[i];
+          borderCodes[borderCodes.indexOf(country.cca3)] = country.name.common;
+        }
+      }
+
+      // Pick needed country details
+      setCountryDetails({
+        name: chosenCountry.name.common,
+        flag: chosenCountry.flags.png,
+        capital: chosenCountry.capital && chosenCountry.capital[0],
+        currency:
+          chosenCountry.currencies &&
+          `${Object.values(chosenCountry.currencies)[0].name} 
+      (${Object.values(chosenCountry.currencies)[0].symbol})`,
+        region: `${chosenCountry.region}, ${chosenCountry.subregion}`,
+        continent: chosenCountry.continents[0],
+        population: chosenCountry.population.toLocaleString(),
+        borders: borderCodes && borderCodes.join(", "),
+      });
+    },
+    [countries]
+  );
+
+  // Get countries on initial load
   useEffect(() => {
     const fetchCountries = async () => {
       const response = await fetch("https://restcountries.com/v3.1/all");
@@ -14,33 +47,17 @@ function Countries() {
     fetchCountries();
   }, []);
 
-  const handleChange = (event) => {
-    const chosenCountry = countries[event.target.value];
-
-    // Replace border country cca3 codes with names
-    const borderCodes = chosenCountry.borders;
-    if (borderCodes) {
+  // Select country if user provides location
+  useEffect(() => {
+    if (userCountry) {
       for (let i = 0; i < countries.length; i++) {
-        const country = countries[i];
-        borderCodes[borderCodes.indexOf(country.cca3)] = country.name.common;
+        if (countries[i].name.common === userCountry) {
+          selectRef.current.value = i;
+          handleChange(countries[i]);
+        }
       }
     }
-
-    // Pick needed country details
-    setCountryDetails({
-      name: chosenCountry.name.common,
-      flag: chosenCountry.flags.png,
-      capital: chosenCountry.capital && chosenCountry.capital[0],
-      currency:
-        chosenCountry.currencies &&
-        `${Object.values(chosenCountry.currencies)[0].name} 
-      (${Object.values(chosenCountry.currencies)[0].symbol})`,
-      region: `${chosenCountry.region}, ${chosenCountry.subregion}`,
-      continent: chosenCountry.continents[0],
-      population: chosenCountry.population.toLocaleString(),
-      borders: borderCodes && borderCodes.join(", "),
-    });
-  };
+  }, [userCountry, countries, handleChange]);
 
   return (
     <div className="w-full p-6 flex flex-col items-center border max-w-screen-xl">
@@ -48,8 +65,9 @@ function Countries() {
         <select
           name="countries"
           id="countries"
-          onChange={handleChange}
+          onChange={(e) => handleChange(countries[e.target.value])}
           defaultValue=""
+          ref={selectRef}
           className="w-full p-3 bg-transparent border rounded-[4px] focus:border-blue-500"
         >
           <option value="" disabled hidden>
