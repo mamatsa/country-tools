@@ -60,7 +60,7 @@ function Countries({ userCountry }) {
   }, [userCountry, countries, handleChange]);
 
   return (
-    <div className="w-full p-6 flex flex-col items-center border max-w-screen-xl">
+    <>
       <form className="mb-6 w-full">
         <select
           name="countries"
@@ -104,7 +104,7 @@ function Countries({ userCountry }) {
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 }
 
