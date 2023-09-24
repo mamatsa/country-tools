@@ -48,7 +48,7 @@ function Countries() {
           name="countries"
           id="countries"
           onChange={handleChange}
-          value=""
+          defaultValue=""
         >
           <option value="" disabled hidden>
             Choose the country
