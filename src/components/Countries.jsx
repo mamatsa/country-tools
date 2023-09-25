@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef, useCallback } from "react";
+import ToolTabs from "./ToolTabs";
 
 function Countries({ userCountry }) {
   const [countries, setCountries] = useState();
@@ -31,6 +32,8 @@ function Countries({ userCountry }) {
         continent: chosenCountry.continents[0],
         population: chosenCountry.population.toLocaleString(),
         borders: borderCodes && borderCodes.join(", "),
+        exchangeFrom:
+          chosenCountry.currencies && Object.keys(chosenCountry.currencies)[0],
       });
     },
     [countries]
@@ -104,6 +107,10 @@ function Countries({ userCountry }) {
           </div>
         </div>
       )}
+      <ToolTabs
+        countries={countries}
+        exchangeFrom={countryDetails?.exchangeFrom}
+      />
     </>
   );
 }

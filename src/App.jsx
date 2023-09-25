@@ -1,5 +1,4 @@
 import Countries from "./components/Countries";
-import ToolTabs from "./components/ToolTabs";
 import { useEffect, useState } from "react";
 
 function App() {
@@ -33,7 +32,6 @@ function App() {
     <div className="flex justify-center p-6">
       <div className="w-full p-6 flex flex-col items-center border max-w-screen-xl">
         <Countries userCountry={userCountry} />
-        <ToolTabs />
       </div>
     </div>
   );
