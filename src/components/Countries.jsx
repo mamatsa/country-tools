@@ -40,9 +40,9 @@ function Countries({ userCountry }) {
         index,
       });
 
-      if (!countryId) navigate(`/${chosenCountry.cca3}`);
+      navigate(`/${chosenCountry.cca3}`);
     },
-    [countries, navigate, countryId]
+    [countries, navigate]
   );
 
   // Get countries on initial load
