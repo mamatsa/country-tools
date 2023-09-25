@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import ToolTabs from "./ToolTabs";
 import { useNavigate, useParams } from "react-router-dom";
+import CountryDetail from "./CountryDetail";
 
 function Countries({ userCountry }) {
   const navigate = useNavigate();
@@ -112,18 +113,25 @@ function Countries({ userCountry }) {
           </div>
           <div className="flex">
             <div className="flex flex-col w-1/2 gap-2">
-              <p>Capital: {countryDetails.capital}</p>
-              <p>Currency: {countryDetails.currency}</p>
-              <p>Region: {countryDetails.region}</p>
+              <CountryDetail label="Capital:" data={countryDetails.capital} />
+              <CountryDetail label="Currency:" data={countryDetails.currency} />
+              <CountryDetail label="Region:" data={countryDetails.region} />
             </div>
             <div className="flex flex-col w-1/2 gap-2">
-              <p>Continent: {countryDetails.continent}</p>
-              <p>Population: {countryDetails.population}</p>
-              <p>Borders: {countryDetails.borders}</p>
+              <CountryDetail
+                label="Continent:"
+                data={countryDetails.continent}
+              />
+              <CountryDetail
+                label="Population:"
+                data={countryDetails.population}
+              />
+              <CountryDetail label="Borders:" data={countryDetails.borders} />
             </div>
           </div>
         </div>
       )}
+
       <ToolTabs
         countries={countries}
         chosenCountryIndex={countryDetails?.index}
