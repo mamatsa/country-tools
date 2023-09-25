@@ -58,7 +58,7 @@ function CurrencyExchange({ countries, chosenCountryIndex }) {
   };
 
   return (
-    <div className="border shadow-md mt-5 px-3 py-5 flex flex-col gap-5">
+    <div className="border shadow-md rounded-[4px] mt-5 px-3 py-5 flex flex-col gap-5">
       <h2 className="text-3xl">Currency Exchange</h2>
       <form className="w-full" key={chosenCountryIndex}>
         <select

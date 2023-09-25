@@ -29,22 +29,27 @@ function Airports({ countryCode }) {
   }, [countryCode, searchPhrase]);
 
   return (
-    <div>
-      <h2>Airports</h2>
+    <div className="border shadow-md rounded-[4px] mt-5 px-3 py-5 flex flex-col gap-5">
+      <h2 className="text-3xl">Airports</h2>
       {airports && (
         <input
           type="text"
           value={searchPhrase}
+          placeholder="Search for airport"
           onChange={(e) => setSearchPhrase(e.target.value)}
+          className="border-b focus:border-b-blue-500 outline-none w-min py-1"
         />
       )}
-      <ul>
+      <ul className="w-full flex flex-wrap gap-y-3">
         {airports &&
           airports.map((airport, index) => {
             return (
-              <li
-                key={index}
-              >{`${airport.icao} - ${airport.name} (${airport.city})`}</li>
+              airport.iata && (
+                <li
+                  key={index}
+                  className="w-1/2"
+                >{`${airport.iata} - ${airport.name} (${airport.city})`}</li>
+              )
             );
           })}
       </ul>
