@@ -9,7 +9,8 @@ function Countries({ userCountry }) {
 
   // Handle country change
   const handleChange = useCallback(
-    (chosenCountry) => {
+    (index) => {
+      const chosenCountry = countries[index];
       const borderCodes = chosenCountry.borders;
       // Replace border country codes with actual names
       if (borderCodes) {
@@ -32,8 +33,7 @@ function Countries({ userCountry }) {
         continent: chosenCountry.continents[0],
         population: chosenCountry.population.toLocaleString(),
         borders: borderCodes && borderCodes.join(", "),
-        exchangeFrom:
-          chosenCountry.currencies && Object.keys(chosenCountry.currencies)[0],
+        index,
       });
     },
     [countries]
@@ -56,7 +56,7 @@ function Countries({ userCountry }) {
       for (let i = 0; i < countries.length; i++) {
         if (countries[i].name.common === userCountry) {
           selectRef.current.value = i;
-          handleChange(countries[i]);
+          handleChange(i);
         }
       }
     }
@@ -68,7 +68,7 @@ function Countries({ userCountry }) {
         <select
           name="countries"
           id="countries"
-          onChange={(e) => handleChange(countries[e.target.value])}
+          onChange={(e) => handleChange(e.target.value)}
           defaultValue=""
           ref={selectRef}
           className="w-full p-3 bg-transparent border rounded-[4px] focus:border-blue-500"
@@ -109,7 +109,7 @@ function Countries({ userCountry }) {
       )}
       <ToolTabs
         countries={countries}
-        exchangeFrom={countryDetails?.exchangeFrom}
+        chosenCountryIndex={countryDetails?.index}
       />
     </>
   );

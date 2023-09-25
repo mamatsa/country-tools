@@ -2,10 +2,10 @@ import { useState } from "react";
 import CurrencyExchange from "./CurrencyExchange";
 import Airports from "./Airports";
 
-function ToolTabs({ countries, exchangeFrom }) {
+function ToolTabs({ countries, chosenCountryIndex }) {
   const [openTab, setOpenTab] = useState(0);
   return (
-    <div className="self-start mt-8 ">
+    <div className="self-start w-full mt-8 ">
       <ul className="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200">
         <li className="mr-2">
           <a
@@ -37,7 +37,10 @@ function ToolTabs({ countries, exchangeFrom }) {
       {openTab ? (
         <Airports />
       ) : (
-        <CurrencyExchange countries={countries} from={exchangeFrom} />
+        <CurrencyExchange
+          countries={countries}
+          chosenCountryIndex={chosenCountryIndex}
+        />
       )}
     </div>
   );
