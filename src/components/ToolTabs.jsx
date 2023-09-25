@@ -35,7 +35,9 @@ function ToolTabs({ countries, chosenCountryIndex }) {
         </li>
       </ul>
       {openTab ? (
-        <Airports />
+        <Airports
+          countryCode={countries && countries[chosenCountryIndex]?.cca2}
+        />
       ) : (
         <CurrencyExchange
           countries={countries}
