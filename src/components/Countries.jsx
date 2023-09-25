@@ -48,9 +48,13 @@ function Countries({ userCountry }) {
   // Get countries on initial load
   useEffect(() => {
     const fetchCountries = async () => {
-      const response = await fetch("https://restcountries.com/v3.1/all");
-      const countries = await response.json();
-      setCountries(countries);
+      try {
+        const response = await fetch("https://restcountries.com/v3.1/all");
+        const countries = await response.json();
+        setCountries(countries);
+      } catch (e) {
+        console.log(e.message);
+      }
     };
 
     fetchCountries();

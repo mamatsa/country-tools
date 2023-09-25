@@ -10,22 +10,25 @@ function Airports() {
     const fetchAirports = async () => {
       if (searchPhrase || (countryCode && !AIRPORT_CACHE[countryCode])) {
         // Fetch airports
-        const response = await fetch(
-          `https://api.api-ninjas.com/v1/airports?country=${countryCode}&name=${searchPhrase}`,
-          {
-            method: "GET",
-            headers: { "X-Api-Key": import.meta.env.VITE_APININJAS_API_KEY },
-            contentType: "application/json",
+        try {
+          const response = await fetch(
+            `https://api.api-ninjas.com/v1/airports?country=${countryCode}&name=${searchPhrase}`,
+            {
+              method: "GET",
+              headers: { "X-Api-Key": import.meta.env.VITE_APININJAS_API_KEY },
+              contentType: "application/json",
+            }
+          );
+          const data = await response.json();
+          // Cache data if user is not searching
+          if (!searchPhrase) {
+            cacheAirports(countryCode, data);
           }
-        );
-        const data = await response.json();
 
-        // Cache data if user is not searching
-        if (!searchPhrase) {
-          cacheAirports(countryCode, data);
+          setAirports(data);
+        } catch (e) {
+          console.log(e.message);
         }
-
-        setAirports(data);
       }
     };
 

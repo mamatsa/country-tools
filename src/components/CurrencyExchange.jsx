@@ -28,17 +28,21 @@ function CurrencyExchange() {
         if (exchangeFrom && cachedRate) {
           setExchangeRate(cachedRate);
         } else if (exchangeFrom) {
-          const response = await fetch(
-            `https://api.exchangerate.host/convert?from=${exchangeFrom}&to=${
-              exchangeTo || exchangeFrom
-            }`
-          );
-          const data = await response.json();
-          cacheExchangeRate(
-            `${exchangeFrom}${exchangeTo || exchangeFrom}`,
-            data.result
-          );
-          setExchangeRate(data.result);
+          try {
+            const response = await fetch(
+              `https://api.exchangerate.host/convert?from=${exchangeFrom}&to=${
+                exchangeTo || exchangeFrom
+              }`
+            );
+            const data = await response.json();
+            cacheExchangeRate(
+              `${exchangeFrom}${exchangeTo || exchangeFrom}`,
+              data.result
+            );
+            setExchangeRate(data.result);
+          } catch (e) {
+            console.log(e.message);
+          }
         }
       };
 
