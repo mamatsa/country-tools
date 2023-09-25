@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
+import { useOutletContext } from "react-router-dom";
 
-function CurrencyExchange({ countries, chosenCountryIndex }) {
+function CurrencyExchange() {
+  const { countries, chosenCountryIndex } = useOutletContext();
+
   const [exchangeTo, setExchangeTo] = useState();
   const [exchangeRate, setExchangeRate] = useState(1);
   const [exchangeValue, setExchangeValue] = useState(0);

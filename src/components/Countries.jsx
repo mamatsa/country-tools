@@ -1,10 +1,12 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import ToolTabs from "./ToolTabs";
+import { useNavigate } from "react-router-dom";
 
 function Countries({ userCountry }) {
+  const navigate = useNavigate();
+
   const [countries, setCountries] = useState();
   const [countryDetails, setCountryDetails] = useState();
-
   const selectRef = useRef(null);
 
   // Handle country change
@@ -35,8 +37,9 @@ function Countries({ userCountry }) {
         borders: borderCodes && borderCodes.join(", "),
         index,
       });
+      navigate(`/${chosenCountry.cca3}`);
     },
-    [countries]
+    [countries, navigate]
   );
 
   // Get countries on initial load

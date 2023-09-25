@@ -1,49 +1,48 @@
-import { useState } from "react";
-import CurrencyExchange from "./CurrencyExchange";
-import Airports from "./Airports";
+import { Outlet, NavLink } from "react-router-dom";
 
 function ToolTabs({ countries, chosenCountryIndex }) {
-  const [openTab, setOpenTab] = useState(0);
   return (
     <div className="self-start w-full mt-8 ">
       <ul className="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200">
         <li className="mr-2">
-          <a
-            href="#"
-            className={`inline-block p-4 rounded-t-lg ${
-              openTab
-                ? "hover:text-gray-600 hover:bg-gray-50"
-                : "active text-blue-600 bg-gray-100"
-            }`}
-            onClick={() => setOpenTab(!openTab)}
+          <NavLink
+            to=""
+            end
+            className={({ isActive }) =>
+              `inline-block p-4 rounded-t-lg ${
+                isActive
+                  ? "active text-blue-600 bg-gray-100"
+                  : "hover:text-gray-600 hover:bg-gray-50"
+              }`
+            }
           >
             Currency Exchange
-          </a>
+          </NavLink>
         </li>
         <li className="mr-2">
-          <a
-            href="#"
-            className={`inline-block p-4 rounded-t-lg ${
-              openTab
-                ? "active text-blue-600 bg-gray-100"
-                : "hover:text-gray-600 hover:bg-gray-50"
-            }`}
-            onClick={() => setOpenTab(!openTab)}
+          <NavLink
+            to="airports"
+            end
+            className={({ isActive }) =>
+              `inline-block p-4 rounded-t-lg ${
+                isActive
+                  ? "active text-blue-600 bg-gray-100"
+                  : "hover:text-gray-600 hover:bg-gray-50"
+              }`
+            }
           >
             Airports
-          </a>
+          </NavLink>
         </li>
       </ul>
-      {openTab ? (
-        <Airports
-          countryCode={countries && countries[chosenCountryIndex]?.cca2}
-        />
-      ) : (
-        <CurrencyExchange
-          countries={countries}
-          chosenCountryIndex={chosenCountryIndex}
-        />
-      )}
+
+      <Outlet
+        context={{
+          countries,
+          chosenCountryIndex,
+          countryCode: countries && countries[chosenCountryIndex]?.cca2,
+        }}
+      />
     </div>
   );
 }

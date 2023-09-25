@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
+import { useOutletContext } from "react-router-dom";
 
-function Airports({ countryCode }) {
+function Airports() {
+  const { countryCode } = useOutletContext();
   const [airports, setAirports] = useState();
   const [searchPhrase, setSearchPhrase] = useState("");
+
   useEffect(() => {
     const fetchAirports = async () => {
       if (countryCode) {
