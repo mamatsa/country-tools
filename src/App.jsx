@@ -1,7 +1,9 @@
 import Countries from "./components/Countries";
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 function App() {
+  const { countryId } = useParams();
   const [userCountry, setUserCountry] = useState();
 
   useEffect(() => {
@@ -17,16 +19,14 @@ function App() {
     };
 
     // Get user location latitude and longitude from browser
-    if (navigator.geolocation) {
+    if (navigator.geolocation && !countryId) {
       navigator.geolocation.getCurrentPosition((position) => {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
         getUserCountry(latitude, longitude);
       });
-    } else {
-      console.log("Geolocation not supported");
     }
-  }, []);
+  }, [countryId]);
 
   return (
     <div className="flex justify-center p-6">

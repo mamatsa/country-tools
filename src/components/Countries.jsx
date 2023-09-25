@@ -1,14 +1,16 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import ToolTabs from "./ToolTabs";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function Countries({ userCountry }) {
   const navigate = useNavigate();
+  const { countryId } = useParams();
 
   const [countries, setCountries] = useState();
   const [countryDetails, setCountryDetails] = useState();
   const selectRef = useRef(null);
 
+  console.log(countryId);
   // Handle country change
   const handleChange = useCallback(
     (index) => {
@@ -37,9 +39,10 @@ function Countries({ userCountry }) {
         borders: borderCodes && borderCodes.join(", "),
         index,
       });
-      navigate(`/${chosenCountry.cca3}`);
+
+      if (!countryId) navigate(`/${chosenCountry.cca3}`);
     },
-    [countries, navigate]
+    [countries, navigate, countryId]
   );
 
   // Get countries on initial load
@@ -64,6 +67,18 @@ function Countries({ userCountry }) {
       }
     }
   }, [userCountry, countries, handleChange]);
+
+  // Load with url params
+  useEffect(() => {
+    if (countries && countryId) {
+      for (let i = 0; i < countries.length; i++) {
+        if (countries[i].cca3 === countryId) {
+          selectRef.current.value = i;
+          handleChange(i);
+        }
+      }
+    }
+  }, [countryId, countries, handleChange]);
 
   return (
     <>
