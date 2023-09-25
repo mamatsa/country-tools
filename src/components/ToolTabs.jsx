@@ -1,11 +1,17 @@
 import { Outlet, NavLink } from "react-router-dom";
 
 const AIRPORT_CACHE = {};
+const EXCHANGE_CACHE = {};
 
 function ToolTabs({ countries, chosenCountryIndex }) {
   // Saves fetched data to avoid repetetive API calls
   const cacheAirports = (countryCode, data) => {
     AIRPORT_CACHE[countryCode] = data;
+  };
+
+  // Saves fetched data to avoid repetetive API calls
+  const cacheExchangeRate = (countries, data) => {
+    EXCHANGE_CACHE[countries] = data;
   };
 
   return (
@@ -49,7 +55,9 @@ function ToolTabs({ countries, chosenCountryIndex }) {
           chosenCountryIndex,
           countryCode: countries && countries[chosenCountryIndex]?.cca2,
           cacheAirports,
+          cacheExchangeRate,
           AIRPORT_CACHE,
+          EXCHANGE_CACHE,
         }}
       />
     </div>

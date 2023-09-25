@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 
 function CurrencyExchange() {
-  const { countries, chosenCountryIndex } = useOutletContext();
+  const { countries, chosenCountryIndex, cacheExchangeRate, EXCHANGE_CACHE } =
+    useOutletContext();
 
   const [exchangeTo, setExchangeTo] = useState();
   const [exchangeRate, setExchangeRate] = useState(1);
@@ -12,20 +13,31 @@ function CurrencyExchange() {
 
   useEffect(() => {
     if (countries) {
-      // Determine currency exchange will be executed from
+      // Determine from which currency exchange will happen
       const countryFrom = countries[chosenCountryIndex];
       const exchangeFrom =
         countryFrom?.currencies && Object.keys(countryFrom.currencies)[0];
 
-      // Get exchange rate from API call
       const fetchExchangeRate = async () => {
+        let cachedRate;
         if (exchangeFrom) {
+          cachedRate =
+            EXCHANGE_CACHE[`${exchangeFrom}${exchangeTo || exchangeFrom}`];
+        }
+
+        if (exchangeFrom && cachedRate) {
+          setExchangeRate(cachedRate);
+        } else if (exchangeFrom) {
           const response = await fetch(
             `https://api.exchangerate.host/convert?from=${exchangeFrom}&to=${
-              exchangeTo?.currency || exchangeFrom
+              exchangeTo || exchangeFrom
             }`
           );
           const data = await response.json();
+          cacheExchangeRate(
+            `${exchangeFrom}${exchangeTo || exchangeFrom}`,
+            data.result
+          );
           console.log(data);
           setExchangeRate(data.result);
         }
@@ -33,7 +45,13 @@ function CurrencyExchange() {
 
       fetchExchangeRate();
     }
-  }, [countries, chosenCountryIndex, exchangeTo]);
+  }, [
+    countries,
+    chosenCountryIndex,
+    exchangeTo,
+    cacheExchangeRate,
+    EXCHANGE_CACHE,
+  ]);
 
   useEffect(() => {
     // Set currency symbol of exchange pair
@@ -50,13 +68,9 @@ function CurrencyExchange() {
   // Handle country change
   const handleChange = (e) => {
     const chosenCountry = countries[e.target.value];
-    setExchangeTo({
-      currency:
-        chosenCountry.currencies && Object.keys(chosenCountry.currencies)[0],
-      symbol:
-        chosenCountry.currencies &&
-        Object.values(chosenCountry.currencies)[0].symbol,
-    });
+    setExchangeTo(
+      chosenCountry.currencies && Object.keys(chosenCountry.currencies)[0]
+    );
     setExchangeToSymbol(Object.values(chosenCountry.currencies)[0].symbol);
   };
 

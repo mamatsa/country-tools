@@ -41,7 +41,6 @@ function Airports() {
     } else {
       fetchAirports();
     }
-    fetchAirports();
   }, [countryCode, searchPhrase, AIRPORT_CACHE, cacheAirports]);
 
   return (
