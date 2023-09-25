@@ -58,15 +58,15 @@ function CurrencyExchange({ countries, chosenCountryIndex }) {
   };
 
   return (
-    <div>
-      <h2>Currency Exchange</h2>
-      <form className="mb-6 w-full" key={chosenCountryIndex}>
+    <div className="border shadow-md mt-5 px-3 py-5 flex flex-col gap-5">
+      <h2 className="text-3xl">Currency Exchange</h2>
+      <form className="w-full" key={chosenCountryIndex}>
         <select
           name="countries"
           id="countries"
           onChange={handleChange}
           defaultValue={chosenCountryIndex || ""}
-          className="w-full p-3 bg-transparent border rounded-[4px] focus:border-blue-500"
+          className="py-2 px-1 bg-transparent border-b rounded-[4px] focus:border-blue-500"
         >
           <option value="" disabled hidden>
             Choose the country
