@@ -38,7 +38,6 @@ function CurrencyExchange() {
             `${exchangeFrom}${exchangeTo || exchangeFrom}`,
             data.result
           );
-          console.log(data);
           setExchangeRate(data.result);
         }
       };

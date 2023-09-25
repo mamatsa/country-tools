@@ -10,7 +10,6 @@ function Countries({ userCountry }) {
   const [countryDetails, setCountryDetails] = useState();
   const selectRef = useRef(null);
 
-  console.log(countryId);
   // Handle country change
   const handleChange = useCallback(
     (index) => {

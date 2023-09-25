@@ -19,7 +19,6 @@ function Airports() {
           }
         );
         const data = await response.json();
-        console.log(data);
 
         // Cache data if user is not searching
         if (!searchPhrase) {
